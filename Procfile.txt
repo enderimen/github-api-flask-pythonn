@@ -1,2 +1,1 @@
-web:github istatistik
-app:app
+web: gunicorn app:app

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Github İstatistik</title>
+
+  <!-- Bootstrap core CSS 
+
+  
+  -->
+  <link href="{{url_for ('static', filename = 'vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="{{url_for ('static', filename = 'vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="{{url_for ('static', filename = 'css/agency.min.css')}}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">GitHub İstatistik</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menü
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services" hidden>Sonuç</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#team">Hakkımda</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href=""><i class="fa fa-github"></i>Katkı Yap</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead" style="height: 100vh">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">
+          <i class="fa fa-github-alt"></i>
+        </div>
+        <form action="/" method="post">
+
+          <input type="text" name="githubname" class ="col-md-5 form-control mx-auto text-center" placeholder="Örn: enderimen" aria-describedby="basic-addon2"><br>
+
+          <button class="btn btn-primary col-md-2 js-scroll-trigger" id="ara" type="submit">Ara</button>
+          <a class="btn btn-primary btn btn-outline btn-md js-scroll-trigger" id="slideTrigger" href="#services" hidden="hidden">Kaydır</a>
+
+        </form>
+      </div>
+    </div>
+  </header>
+  {% if profile %}
+  <!-- Services -->
+  <section id="services" style="height: 100vh">
+    <div class="container">
+      <div class="row text-center">
+
+        <div class="col-sm-12 col-md-4">
+          <div class="thumbnail">
+            <img src="{{profile.avatar_url}}" height="200" width="200" alt="Profil Resmi">
+            <div class="caption">
+              <p><a href="{{profile.html_url}}" target="_blank" class="btn btn-primary mt-3" role="button">Profile Sayfasını Gör</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-8">
+          <ul class="list-group">
+            <li class="list-group-item">
+              Repo Sayısı:
+              <span class="badge badge-pill badge-secondary">{{profile.public_repos}}</span>
+              Gist Sayısı: 
+              <span class="badge badge-pill badge-dark">{{profile.public_gists}}</span>
+              Takipçi:
+              <span class="badge badge-pill badge-warning">{{profile.followers}}</span>
+              Takip Edilen:
+              <span class="badge badge-pill badge-info">{{profile.following}}</span>
+            </li>
+          </ul>
+
+          <ul class="list-group text-left">
+            <li class="list-group-item"><b>Şirket: </b> {{profile.company}}</li>
+            <li class="list-group-item"><b>Website: </b> <a href="{{profile.blog}}" target="_blank" style="color: gray">{{profile.blog}}</a></li>
+            <li class="list-group-item"><b>Yer: </b>{{profile.location}}</li>
+            <li class="list-group-item"><b>Üyelik Zamanı: </b>{{profile.created_at}}</li>
+          </ul>
+        </div>
+        <div class="row mx-auto">
+          <div class="intro-text">
+            <div class="intro-lead-in mx-auto" style="margin-top: 50px;">
+              <a class="btn btn-dark btn btn-outline btn-md js-scroll-trigger mt-3" href="#repositories">Son Repoları Gör</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="bg-light" id="repositories">
+      <div class="container">
+        <h3 class="head mt-5">Son Repolar</h3>
+        <ul class="list-group col-sm-12">
+          {% for repo in repos %}
+
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{{profile.html_url + '/' + repo.name}}" style="color: gray">{{repo.name}}</a>
+              <div class="btn-group mx-right">
+                <span class="btn" style="background-color: #fff" title="Yıldızlar"><i class="fa fa-star fa-x col-sm-3"></i> {{repo.stargazers_count}}</span>
+                <span class="btn" style="background-color: #fff" title="Forklar"><i class="fa fa-code-fork col-sm-3"></i> {{repo.forks}}</span>
+                <span class="btn" style="background-color: #fff" title="İzleyiciler"><i class="fa fa-eye col-sm-3"></i> {{repo.watchers}}</span>
+              </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+
+    {% endif %}
+
+    <!-- Team -->
+    <section class="bg-light" id="team">
+      <div class="container">
+        <div class="row">
+          
+          <div class="col-sm-4 mx-auto">
+            <div class="team-member">
+              <img class="mx-auto rounded-circle" src="{{url_for ('static', filename = 'img/profile_photo/profile_photo.jpg')}}" alt="">
+              <h4>Ender İMEN</h4>
+              <p class="text-muted">Yazılım Mühendisi</p>
+              <ul class="list-inline social-buttons">
+                <li class="list-inline-item">
+                  <a href="https://twitter.com/imenender" target="_blank">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://www.facebook.com/enderimen" target="_blank">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://www.linkedin.com/in/enderimen" target="_blank">
+                    <i class="fa fa-linkedin"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <p class="large text-muted">Karadeniz Teknik Üniversitesi</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="navbar-dark">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <span class="copyright">Copyright &copy; enderimen.kim 2018</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{url_for ('static', filename = 'vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{url_for ('static', filename = 'vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{url_for ('static', filename = 'vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+    <!-- Contact form JavaScript -->
+    <script src="{{url_for ('static', filename = 'js/jqBootstrapValidation.js')}}"></script>
+    <script src="{{url_for ('static', filename = 'js/contact_me.js')}}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{url_for ('static', filename = 'js/agency.min.js')}}"></script>
+	<script>
+		$('#ara').click(function () {
+			setTimeout(function () { 
+				$('#slideTrigger').click();
+			},5000);
+		});
+	</script>
+  </body>
+
+  </html>
